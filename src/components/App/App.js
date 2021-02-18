@@ -6,7 +6,7 @@ import StreamDelete from "../streams/StreamDelete/StreamDelete.js";
 import StreamShow from "../streams/StreamShow/StreamShow.js";
 import StreamList from "../streams/StreamList/StreamList.js";
 import Header from "../Header/Header.js";
-
+import "./App.css";
 const App = () => {
   return (
     <div className="App">

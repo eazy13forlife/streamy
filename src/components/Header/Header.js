@@ -1,5 +1,8 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import "./Header.css";
+
+import GoogleAuth from "../GoogleAuth/GoogleAuth.js";
 
 const Header = () => {
   return (
@@ -7,11 +10,12 @@ const Header = () => {
       <nav>
         <ul>
           <li>
-            <Link to="/">Streamer</Link>
+            <Link to="/">Streamy</Link>
           </li>
           <li>
             <Link to="/">Streams</Link>
           </li>
+          <GoogleAuth />
         </ul>
       </nav>
     </header>
