@@ -1,0 +1,22 @@
+.stream {
+  border: 1px solid black;
+  box-shadow: 1px 2px 3px lightgrey;
+  margin-top: 0.5em;
+  padding-left: 0.5em;
+  display: flex;
+  justify-content: space-between;
+}
+
+.admin .edit {
+  margin-right: 0.2em;
+  background-color: blue;
+}
+
+.admin {
+  padding-right: 0.5em;
+}
+
+.create-button {
+  display: flex;
+  justify-content: flex-end;
+}

@@ -20,3 +20,18 @@ li {
   margin: 0px;
   padding: 0px;
 }
+
+button {
+  background-color: orange;
+  color: white;
+  border: 1px solid transparent;
+  padding: 1em;
+  font-weight: bold;
+  border-radius: 5px;
+}
+button:hover {
+  background-color: #ff8c00;
+}
+button i.position {
+  margin-right: 0.5em;
+}
