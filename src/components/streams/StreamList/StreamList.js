@@ -1,13 +1,20 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import history from "../../../history.js";
 import { connect } from "react-redux";
-import { fetchStreams } from "../../../actions";
+import {
+  fetchStreams,
+  openStreamDelete,
+  closeStreamDelete,
+} from "../../../actions";
 import "./StreamList.css";
+import StreamDelete from "../StreamDelete/StreamDelete.js";
 
 class StreamList extends React.Component {
   componentDidMount() {
     this.props.fetchStreams();
   }
+
   renderDeleteAndEdit(stream) {
     if (this.props.currentUserId === stream.userId) {
       return (
@@ -15,9 +22,15 @@ class StreamList extends React.Component {
           <Link to={`/streams/edit/${stream.id}`}>
             <button className="edit">Edit</button>
           </Link>
-          <Link to={`/streams/delete/${stream.id}`}>
-            <button className="delete">Delete</button>
-          </Link>
+
+          <button
+            className="delete"
+            onClick={(e) => {
+              this.props.openStreamDelete(stream.id);
+            }}
+          >
+            Delete
+          </button>
         </div>
       );
     }
@@ -28,7 +41,9 @@ class StreamList extends React.Component {
       return (
         <div className="stream" key={stream.id}>
           <div className="info">
-            <h3>{stream.title}</h3>
+            <Link to={`/streams/show/${stream.id}`}>
+              <h3>{stream.title}</h3>
+            </Link>
             <p>{stream.description}</p>
           </div>
           {this.renderDeleteAndEdit(stream)}
@@ -47,12 +62,20 @@ class StreamList extends React.Component {
       );
     }
   }
+  renderStreamDelete() {
+    const { open, id } = this.props.streamDelete;
+    if (open) {
+      return <StreamDelete id={id} />;
+    }
+    return null;
+  }
   render() {
     return (
       <div className="streams">
         <h2>Streams</h2>
         {this.renderStreams()}
         {this.renderCreateButton()}
+        {this.renderStreamDelete()}
       </div>
     );
   }
@@ -63,8 +86,11 @@ const mapStateToProps = (state) => {
     authorized: state.authorization.authorized,
     currentUserId: state.authorization.userId,
     streams: Object.values(state.streams),
+    streamDelete: state.streamDelete,
   };
 };
-export default connect(mapStateToProps, { fetchStreams: fetchStreams })(
-  StreamList
-);
+export default connect(mapStateToProps, {
+  fetchStreams: fetchStreams,
+  openStreamDelete,
+  closeStreamDelete,
+})(StreamList);

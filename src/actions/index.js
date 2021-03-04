@@ -1,7 +1,6 @@
 import axios from "axios";
 import history from "../history.js";
 const signIn = (id) => {
-  console.log("happy");
   return {
     type: "SIGN_IN",
     payload: {
@@ -25,8 +24,6 @@ const createStream = (formValues) => {
       ...formValues,
       userId: userId,
     });
-
-    console.log(response);
 
     dispatch({
       type: "CREATE_STREAM",
@@ -66,11 +63,23 @@ const editStream = (id, formValues) => {
 };
 
 const deleteStream = (id) => {
-  return async (dispatch) => {
+  return async (dispatch, getState) => {
     await axios.delete(`http://localhost:3001/streams/${id}`);
 
     dispatch({ type: "DELETE_STREAM", payload: id });
-    history.push("/");
+  };
+};
+
+const openStreamDelete = (id) => {
+  return {
+    type: "OPEN_STREAM_DELETE",
+    id: id,
+  };
+};
+
+const closeStreamDelete = () => {
+  return {
+    type: "CLOSE_STREAM_DELETE",
   };
 };
 export {
@@ -81,4 +90,6 @@ export {
   fetchStream,
   editStream,
   deleteStream,
+  openStreamDelete,
+  closeStreamDelete,
 };

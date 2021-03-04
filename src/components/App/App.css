@@ -1,5 +1,6 @@
 html {
   box-sizing: border-box;
+  height: 100%;
 }
 
 *,
@@ -20,7 +21,9 @@ li {
   margin: 0px;
   padding: 0px;
 }
-
+body {
+  height: 100%;
+}
 button {
   background-color: orange;
   color: white;

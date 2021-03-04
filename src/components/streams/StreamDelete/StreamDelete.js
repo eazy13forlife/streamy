@@ -4,27 +4,28 @@ import Modal from "../../Modal/Modal.js";
 import "./StreamDelete.css";
 import history from "../../../history.js";
 import { connect } from "react-redux";
-import { deleteStream, fetchStream } from "../../../actions";
+import { deleteStream, fetchStream, fetchStreams } from "../../../actions";
 import StreamList from "../StreamList/StreamList.js";
+import { closeStreamDelete } from "../../../actions/";
 
 class StreamDelete extends React.Component {
   componentDidMount() {
-    console.log(this.props);
-    this.props.fetchStream(this.props.match.params.id);
+    this.props.fetchStream(this.props.id);
   }
   renderActions = () => {
     return (
       <div className="buttons">
         <button
-          onClick={() => {
-            this.props.deleteStream(this.props.match.params.id);
+          onClick={async () => {
+            await this.props.deleteStream(this.props.id);
+            this.props.closeStreamDelete();
+            this.props.fetchStreams();
           }}
         >
           Delete
         </button>
-        <Link to="/">
-          <button>Cancel</button>
-        </Link>
+
+        <button onClick={this.props.closeStreamDelete}>Cancel</button>
       </div>
     );
   };
@@ -39,13 +40,12 @@ class StreamDelete extends React.Component {
   render() {
     return (
       <div className="StreamDelete">
-        <div>StreamDelete</div>
         <Modal
           header="Delete Stream"
           content={`Are you sure you want to delete "${this.renderModalContent()}"`}
           actions={this.renderActions}
           onDismiss={() => {
-            history.push("/");
+            this.props.closeStreamDelete();
           }}
         />
       </div>
@@ -54,10 +54,12 @@ class StreamDelete extends React.Component {
 }
 const mapStateToProps = (state, ownProps) => {
   return {
-    stream: state.streams[ownProps.match.params.id],
+    stream: state.streams[ownProps.id],
   };
 };
 export default connect(mapStateToProps, {
   deleteStream: deleteStream,
   fetchStream: fetchStream,
+  fetchStreams: fetchStreams,
+  closeStreamDelete,
 })(StreamDelete);
